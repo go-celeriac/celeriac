@@ -17,5 +17,5 @@ lint:
 .PHONY: test
 test:
 	@echo "Testing"
-	mkdir -p ${COVERAGE_DIR}
+	mkdir -p coverage
 	docker run --rm -i --mount src="${PWD}/coverage",target=/coverage,type=bind go-celeriac/celeriac bash scripts/run_tests.sh ${COVERAGE_DIR}
