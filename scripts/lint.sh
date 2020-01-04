@@ -23,3 +23,5 @@ ${LINTER} run -D structcheck \
     -e "field.* is unused" \
     --timeout 300s \
     ./...
+
+echo -e "\033[0;32mOK! \033[0m"
