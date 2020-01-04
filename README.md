@@ -4,6 +4,30 @@
 
 Distributed Task Queue inspired by celery
 
+### Example
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+
+	"github.com/go-celeriac/celeriac"
+	_ "github.com/go-celeriac/celeriac/drivers/amqp"
+)
+
+func main() {
+	fmt.Println("Doing a thing")
+
+	b, err := celeriac.NewBroker("amqp://127.0.0.1")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer b.Close()
+}
+```
+
 ### Local Development
 celeriac uses golang 1.13 [go modules](https://github.com/golang/go/wiki/Modules) for it's dependency management, which makes life much easier IMO.
 
