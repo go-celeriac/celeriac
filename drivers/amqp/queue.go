@@ -2,6 +2,7 @@ package amqp
 
 import (
 	"github.com/go-celeriac/celeriac"
+	"github.com/google/uuid"
 	mq "github.com/streadway/amqp"
 )
 
@@ -33,14 +34,7 @@ func (q *Queue) Consume() (<-chan celeriac.Message, error) {
 				MessageID:  msg.MessageId,
 				Expiration: msg.Expiration,
 				Timestamp:  msg.Timestamp,
-				Type:       msg.Type,
-
-				DeliveryTag: msg.DeliveryTag,
-				Redelivered: msg.Redelivered,
-				Exchange:    msg.Exchange,
-				RoutingKey:  msg.RoutingKey,
-
-				Body: msg.Body,
+				Body:       msg.Body,
 			}
 		}
 	}()
@@ -49,6 +43,8 @@ func (q *Queue) Consume() (<-chan celeriac.Message, error) {
 }
 
 func (q *Queue) Publish(body []byte) error {
+	messageID, _ := uuid.NewRandom()
+
 	return q.channel.Publish(
 		"",
 		q.q.Name,
@@ -56,6 +52,7 @@ func (q *Queue) Publish(body []byte) error {
 		false,
 		mq.Publishing{
 			ContentType: "text/plain",
+			MessageId:   messageID.String(),
 			Body:        body,
 		},
 	)
