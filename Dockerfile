@@ -4,7 +4,7 @@ ENV GOLINT_VERSION 1.22.2
 ENV HUB_VERSION 2.12.8
 
 RUN mkdir -p /dist && \
-    apt update && apt install -y curl git gcc libc-dev ca-certificates python3-pip && \
+    apt-get update && apt-get install -y curl git gcc libc-dev ca-certificates python3-pip && \
     update-ca-certificates && \
     curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s v$GOLINT_VERSION && \
     go get github.com/github/hub && \
