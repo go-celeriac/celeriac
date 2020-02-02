@@ -42,18 +42,22 @@ func (q *Queue) Consume() (<-chan celeriac.Message, error) {
 	return output, nil
 }
 
-func (q *Queue) Publish(body []byte) error {
+func (q *Queue) Publish(body []byte) (string, error) {
 	messageID, _ := uuid.NewRandom()
 
-	return q.channel.Publish(
+	idStr := messageID.String()
+
+	err := q.channel.Publish(
 		"",
 		q.q.Name,
 		false,
 		false,
 		mq.Publishing{
 			ContentType: "text/plain",
-			MessageId:   messageID.String(),
+			MessageId:   idStr,
 			Body:        body,
 		},
 	)
+
+	return idStr, err
 }

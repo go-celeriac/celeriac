@@ -9,5 +9,5 @@ type Broker interface {
 // Queue defines the features of a Queue which all drivers must implement
 type Queue interface {
 	Consume() (<-chan Message, error)
-	Publish([]byte) error
+	Publish([]byte) (string, error)
 }
