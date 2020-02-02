@@ -1,8 +1,10 @@
 package amqp
 
 import (
+	"log"
+	"time"
+
 	"github.com/go-celeriac/celeriac"
-	"github.com/google/uuid"
 	mq "github.com/streadway/amqp"
 )
 
@@ -30,9 +32,18 @@ func (q *Queue) Consume() (<-chan celeriac.Message, error) {
 
 	go func() {
 		for msg := range messages {
+			var expires *time.Time
+
+			t, err := StringToTime(msg.Expiration)
+			if err != nil {
+				log.Printf("[ERROR] unable to parse expiration %s due to: %s", msg.Expiration, err.Error())
+			} else {
+				expires = &t
+			}
+
 			output <- celeriac.Message{
 				MessageID:  msg.MessageId,
-				Expiration: msg.Expiration,
+				Expiration: expires,
 				Timestamp:  msg.Timestamp,
 				Body:       msg.Body,
 			}
@@ -43,9 +54,7 @@ func (q *Queue) Consume() (<-chan celeriac.Message, error) {
 }
 
 func (q *Queue) Publish(body []byte) (string, error) {
-	messageID, _ := uuid.NewRandom()
-
-	idStr := messageID.String()
+	messageID := NewMessageID()
 
 	err := q.channel.Publish(
 		"",
@@ -54,10 +63,10 @@ func (q *Queue) Publish(body []byte) (string, error) {
 		false,
 		mq.Publishing{
 			ContentType: "text/plain",
-			MessageId:   idStr,
+			MessageId:   messageID,
 			Body:        body,
 		},
 	)
 
-	return idStr, err
+	return messageID, err
 }
