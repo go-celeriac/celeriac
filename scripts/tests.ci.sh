@@ -2,8 +2,8 @@
 
 set -oe pipefail
 
-COVERAGE_DIR=${1:-coverage}
-COVERAGE_FILE="$COVERAGE_DIR/coverage.txt"
+COVERAGE_DIR=${1:-".coverage"}
+COVERAGE_FILE="$COVERAGE_DIR/cover.out"
 
 mkdir -p $COVERAGE_DIR
 

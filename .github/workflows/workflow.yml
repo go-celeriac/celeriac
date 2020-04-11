@@ -17,5 +17,5 @@ jobs:
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         flags: unittests
-        file: ./coverage/coverage.txt
+        file: ./.coverage/cover.out
         fail_ci_if_error: true
