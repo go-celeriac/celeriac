@@ -12,6 +12,10 @@ func (tb *testBroker) Close() error {
 	return nil
 }
 
+func (tb *testBroker) GetQueue(string) (Queue, error) {
+	return nil, nil
+}
+
 func TestRegisterDriver(t *testing.T) {
 	tests := map[string]struct {
 		seed              func()
