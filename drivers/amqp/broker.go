@@ -24,6 +24,26 @@ func (a *Broker) Close() error {
 	return a.connection.Close()
 }
 
+func (a *Broker) Enqueue(t celeriac.Task, args ...interface{}) (string, error) {
+	key := celeriac.QueueNameForTask(t)
+
+	queue, err := a.GetQueue(key)
+	if err != nil {
+		return "", err
+	}
+
+	data, err := (&celeriac.MessageBody{
+		Args: args,
+		Task: key,
+	}).ToBytes()
+
+	if err != nil {
+		return "", err
+	}
+
+	return queue.Publish(data)
+}
+
 func (a *Broker) GetQueue(name string) (celeriac.Queue, error) {
 	if a.channel == nil {
 		ch, err := a.connection.Channel()
