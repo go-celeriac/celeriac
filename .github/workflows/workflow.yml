@@ -14,6 +14,8 @@ jobs:
       uses: golangci/golangci-lint-action@v6
       with:
         version: v1.59
+    - name: Tests
+      run: ./scripts/tests.ci.sh
     - name: Codecov
       uses: codecov/codecov-action@v4.5.0
       with:
