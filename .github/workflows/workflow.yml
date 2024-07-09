@@ -15,7 +15,7 @@ jobs:
       with:
         version: v1.59
     - name: Tests
-      run: ./scripts/tests.ci.sh
+      run: go test -race -coverprofile=.coverage/cover.out -covermode=atomic
     - name: Codecov
       uses: codecov/codecov-action@v4.5.0
       with:
