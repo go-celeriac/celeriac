@@ -3,10 +3,12 @@ package celeriac
 import (
 	"fmt"
 	"net/url"
+
+	"github.com/go-celeriac/celeriac/pkg/types"
 )
 
 // NewBroker creates a new Broker based on the given URI
-func NewBroker(uri string) (Broker, error) {
+func NewBroker(uri string) (types.Broker, error) {
 	url, err := url.Parse(uri)
 	if err != nil {
 		return nil, fmt.Errorf("uri is not valid")

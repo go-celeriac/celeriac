@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/go-celeriac/celeriac"
+	"github.com/go-celeriac/celeriac/pkg/types"
 	mq "github.com/streadway/amqp"
 )
 
@@ -24,7 +25,7 @@ func (a *Broker) Close() error {
 	return a.connection.Close()
 }
 
-func (a *Broker) GetQueue(name string) (celeriac.Queue, error) {
+func (a *Broker) GetQueue(name string) (types.Queue, error) {
 	if a.channel == nil {
 		ch, err := a.connection.Channel()
 		if err != nil {
@@ -64,7 +65,7 @@ func (a *Broker) GetQueue(name string) (celeriac.Queue, error) {
 	return queue, nil
 }
 
-func newBroker(uri string) (celeriac.Broker, error) {
+func newBroker(uri string) (types.Broker, error) {
 	fmt.Println("Loading AMQP driver...")
 
 	connection, err := mq.Dial(uri)

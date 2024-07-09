@@ -3,6 +3,7 @@ package celeriac
 import (
 	"testing"
 
+	"github.com/go-celeriac/celeriac/pkg/types"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -12,7 +13,7 @@ func (tb *testBroker) Close() error {
 	return nil
 }
 
-func (tb *testBroker) GetQueue(string) (Queue, error) {
+func (tb *testBroker) GetQueue(string) (types.Queue, error) {
 	return nil, nil
 }
 
@@ -27,7 +28,7 @@ func TestRegisterDriver(t *testing.T) {
 		},
 		"Registry contains one driver when one is registered": {
 			func() {
-				RegisterDriver("test", func(string) (Broker, error) { return &testBroker{}, nil })
+				RegisterDriver("test", func(string) (types.Broker, error) { return &testBroker{}, nil })
 			},
 			1,
 		},

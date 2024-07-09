@@ -1,4 +1,4 @@
-package celeriac
+package types
 
 // Broker defines the features which all drivers must implement
 type Broker interface {

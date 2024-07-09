@@ -4,13 +4,14 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/go-celeriac/celeriac/pkg/types"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestNewBroker(t *testing.T) {
 	tests := map[string]struct {
 		connectionString string
-		broker           Broker
+		broker           types.Broker
 		expectedErr      error
 	}{
 		"Returns error when connection string is malformed": {
@@ -38,7 +39,7 @@ func TestNewBroker(t *testing.T) {
 	driverRegistry = make(map[string]BrokerFactory) // clear out the registry with each pass
 
 	for name, test := range tests {
-		RegisterDriver("test", func(string) (Broker, error) { return &testBroker{}, nil })
+		RegisterDriver("test", func(string) (types.Broker, error) { return &testBroker{}, nil })
 
 		broker, err := NewBroker(test.connectionString)
 

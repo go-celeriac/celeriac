@@ -1,6 +1,6 @@
-FROM golang:1.13 as base
+FROM golang:1.21 as base
 
-ENV GOLINT_VERSION 1.22.2
+ENV GOLINT_VERSION 1.59.1
 ENV HUB_VERSION 2.12.8
 
 RUN mkdir -p /dist && \

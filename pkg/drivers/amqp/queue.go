@@ -4,7 +4,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/go-celeriac/celeriac"
+	"github.com/go-celeriac/celeriac/pkg/types"
 	mq "github.com/streadway/amqp"
 )
 
@@ -13,7 +13,7 @@ type Queue struct {
 	q       *mq.Queue
 }
 
-func (q *Queue) Consume() (<-chan celeriac.Message, error) {
+func (q *Queue) Consume() (<-chan types.Message, error) {
 	messages, err := q.channel.Consume(
 		q.q.Name,
 		"",
@@ -28,7 +28,7 @@ func (q *Queue) Consume() (<-chan celeriac.Message, error) {
 		return nil, err
 	}
 
-	output := make(chan celeriac.Message)
+	output := make(chan types.Message)
 
 	go func() {
 		for msg := range messages {
@@ -41,7 +41,7 @@ func (q *Queue) Consume() (<-chan celeriac.Message, error) {
 				expires = &t
 			}
 
-			output <- celeriac.Message{
+			output <- types.Message{
 				MessageID:  msg.MessageId,
 				Expiration: expires,
 				Timestamp:  msg.Timestamp,

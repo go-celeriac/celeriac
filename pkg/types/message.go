@@ -1,4 +1,4 @@
-package celeriac
+package types
 
 import "time"
 
